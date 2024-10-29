@@ -1,0 +1,357 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+import "./studentform.css";
+import API_URL from "../../config";
+
+const Studentform = ({ teacher }) => {
+  const [performance, setPerformance] = useState("");
+  const [punctuality, setPunctuality] = useState("");
+  const [feedback, setFeedback] = useState("");
+  const [studentId, setStudentId] = useState(null);
+  const [subjectKnowledge, setSubjectKnowledge] = useState("");
+  const [assesmentMethod, setAssesmentMethod] = useState("");
+  const [interactionWithStudent, setInteractionWithStudent] = useState("");
+  const [classRoomManagement, setClassRoomManagement] = useState("");
+  const [communicationWithStudent, setCommunicationWithStudent] = useState("");
+  const [classRoom, setClassRoom] = useState("");
+  const [comprehensiveFeedback, setComprehensiveFeedback] = useState("");
+  const [timeManagement, setTimeManagement] = useState("");
+
+  useEffect(() => {
+    setStudentId(localStorage.getItem("studentId"));
+  }, []);
+
+  const handleSubmitForm = async (e) => {
+    e.preventDefault();
+
+    // Check if all required fields are filled
+    const requiredFields = [
+      performance,
+      punctuality,
+      subjectKnowledge,
+      assesmentMethod,
+      interactionWithStudent,
+      classRoomManagement,
+      communicationWithStudent,
+      classRoom,
+      timeManagement
+    ];
+
+    const allFieldsFilled = requiredFields.every((field) => field !== "");
+
+    if (!allFieldsFilled) {
+      alert("Please fill all criteria properly");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        `http://localhost:3001/evaluation/createOne`,
+        {
+          studentId: studentId && studentId,
+          teacherId: teacher.teacherId,
+          feedback,
+          performance,
+          punctuality,
+          subjectKnowledge,
+          assesmentMethod,
+          interactionWithStudent,
+          classRoomManagement,
+          communicationWithStudent,
+          classRoom,
+          comprehensiveFeedback,
+          timeManagement,
+        }
+      );
+      if (response.status === 201) {
+        console.log(response.data);
+        alert("Teacher's evaluation submission succeeded...");
+        window.location.reload(); // Refresh the page and clear the form
+
+        console.log("Teacher's evaluation submission succeeded...");
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const options = [
+    { label: "Very Low", value: "veryLow" },
+    { label: "Low", value: "low" },
+    { label: "Medium", value: "medium" },
+    { label: "Good", value: "good" },
+    { label: "Very Good", value: "veryGood" },
+  ];
+
+  return (
+    <form onSubmit={handleSubmitForm}>
+      <div className="container11">
+        <h2 align="center">
+          {teacher && teacher.teacherId} | {teacher && teacher.name} |{" "}
+          {teacher && teacher.department}
+        </h2>
+        <div className="formdiv">
+          <div className="formdiv1">
+            <h2>Performance</h2>
+            {options.map((option) => (
+              <div key={option.value} className="formdiv1b">
+                <h4
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginRight: "50px",
+                  }}
+                >
+                  <div> {option.label} </div>
+                  <input
+                    type="checkbox"
+                    name="performance"
+                    value={option.value}
+                    onChange={(e) => setPerformance(e.target.value)}
+                    checked={performance === option.value}
+                  />
+                </h4>
+              </div>
+            ))}
+          </div>
+
+          <div className="formdiv2">
+            <h2>Punctuality</h2>
+            {options.map((option) => (
+              <div key={option.value} className="formdiv2b">
+                <h4
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginRight: "50px",
+                  }}
+                >
+                  <div> {option.label} </div>
+                  <input
+                    type="checkbox"
+                    name="punctuality"
+                    value={option.value}
+                    onChange={(e) => setPunctuality(e.target.value)}
+                    checked={punctuality === option.value}
+                  />
+                </h4>
+              </div>
+            ))}
+          </div>
+
+          <div className="formdiv3">
+            <h2>Subject Knowledge</h2>
+            {options.map((option) => (
+              <div key={option.value} className="formdiv3b">
+                <h4
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginRight: "50px",
+                  }}
+                >
+                  <div> {option.label} </div>
+                  <input
+                    type="checkbox"
+                    name="subjectKnowledge"
+                    value={option.value}
+                    onChange={(e) => setSubjectKnowledge(e.target.value)}
+                    checked={subjectKnowledge === option.value}
+                  />
+                </h4>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="formdivsecond">
+          <div className="formdivsecond1">
+            <h2>Assessment Method</h2>
+            {options.map((option) => (
+              <div key={option.value} className="formdivsecond1b">
+                <h4
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginRight: "50px",
+                  }}
+                >
+                  <div> {option.label} </div>
+                  <input
+                    type="checkbox"
+                    name="assesmentMethod"
+                    value={option.value}
+                    onChange={(e) => setAssesmentMethod(e.target.value)}
+                    checked={assesmentMethod === option.value}
+                  />
+                </h4>
+              </div>
+            ))}
+          </div>
+
+          <div className="formdivsecond2">
+            <h2>Interaction With Student</h2>
+            {options.map((option) => (
+              <div key={option.value} className="formdivsecond2b">
+                <h4
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginRight: "50px",
+                  }}
+                >
+                  <div> {option.label} </div>
+                  <input
+                    type="checkbox"
+                    name="interactionWithStudent"
+                    value={option.value}
+                    onChange={(e) => setInteractionWithStudent(e.target.value)}
+                    checked={interactionWithStudent === option.value}
+                  />
+                </h4>
+              </div>
+            ))}
+          </div>
+
+          <div className="formdivsecond2">
+            <h2>Communication With Student</h2>
+            {options.map((option) => (
+              <div key={option.value} className="formdivsecond2b">
+                <h4
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginRight: "50px",
+                  }}
+                >
+                  <div> {option.label} </div>
+                  <input
+                    type="checkbox"
+                    name="communicationWithStudent"
+                    value={option.value}
+                    onChange={(e) =>
+                      setCommunicationWithStudent(e.target.value)
+                    }
+                    checked={communicationWithStudent === option.value}
+                  />
+                </h4>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="formdivthird">
+          <div className="formdivthird3">
+            <h2>Class Room</h2>
+            {options.map((option) => (
+              <div key={option.value} className="formdivthird3b">
+                <h4
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginRight: "50px",
+                  }}
+                >
+                  <div> {option.label} </div>
+                  <input
+                    type="checkbox"
+                    name="classRoom"
+                    value={option.value}
+                    onChange={(e) => setClassRoom(e.target.value)}
+                    checked={classRoom === option.value}
+                  />
+                </h4>
+              </div>
+            ))}
+          </div>
+          <div className="formdivthird3">
+            <h2>Class Room Management</h2>
+            {options.map((option) => (
+              <div key={option.value} className="formdivthird3b">
+                <h4
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginRight: "50px",
+                  }}
+                >
+                  <div> {option.label} </div>
+                  <input
+                    type="checkbox"
+                    name="classRoomManagement"
+                    value={option.value}
+                    onChange={(e) => setClassRoomManagement(e.target.value)}
+                    checked={classRoomManagement === option.value}
+                  />
+                </h4>
+              </div>
+            ))}
+          </div>
+
+          <div className="formdivthird3">
+            <h2>Time Management</h2>
+            {options.map((option) => (
+              <div key={option.value} className="formdivthird3b">
+                <h4
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    marginRight: "50px",
+                  }}
+                >
+                  <div> {option.label} </div>
+                  <input
+                    type="checkbox"
+                    name="Time Management"
+                    value={option.value}
+                    onChange={(e) => setTimeManagement(e.target.value)}
+                    checked={timeManagement === option.value}
+                  />
+                </h4>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="feedbackcomment">
+          <div className="feedback">
+            <h3>Positive Feedback</h3>
+            <label htmlFor="name" className="feedbacklabel">
+              <textarea
+                name="feedback"
+                id=""
+                cols="50"
+                rows="10"
+                value={feedback}
+                onChange={(e) => setFeedback(e.target.value)}
+                placeholder="Put Your Feedback Here......"
+              ></textarea>
+            </label>
+          </div>
+
+          <div className="comment">
+            <h3>Negative Feedback</h3>
+            <label htmlFor="name" className="commentlabel">
+              <textarea
+                name="comment"
+                id=""
+                cols="50"
+                rows="10"
+                value={comprehensiveFeedback}
+                onChange={(e) => setComprehensiveFeedback(e.target.value)}
+                placeholder="Put Your Comment Here......"
+              ></textarea>
+            </label>
+          </div>
+        </div>
+
+        <div className="buttons">
+          <label htmlFor="" className="buttonsubmit">
+            <button type="submit">Submit</button>
+          </label>
+        </div>
+      </div>
+    </form>
+  );
+};
+export default Studentform;

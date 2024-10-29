@@ -1,0 +1,74 @@
+.teacher--list {
+  margin: 20px;
+}
+
+.list--header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.teacher--table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.table--header {
+  background-color: #f0f0f0;
+}
+
+.teacher--table th, .teacher--table td {
+  padding: 12px;
+  text-align: left;
+}
+
+.teacher--table th {
+  font-weight: bold;
+}
+
+.teacher--table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.teacher--table tbody tr:hover {
+  background-color: #463e3e;
+}
+
+.teacher--table input[type="date"] {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 150px;
+}
+
+.teacher--table button {
+  padding: 8px 12px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.teacher--table button:hover {
+  background-color: #45a049;
+}
+
+@media only screen and (max-width: 600px) {
+  .teacher--table input[type="date"] {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .teacher--table th, .teacher--table td {
+    font-size: 14px;
+  }
+
+  .teacher--table button {
+    padding: 6px 10px;
+  }
+}
